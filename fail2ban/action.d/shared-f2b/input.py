@@ -18,9 +18,9 @@ print sys.argv[5] #bantime
 date1 = datetime.datetime.now()
 
 faildb = mysql.connector.connect(
-        host='monitoring.dur.scotgrid.ac.uk',
-        user='fail1',
-        passwd='failure1',
+        host='127.0.01',
+        user='username',
+        passwd='password1',
         database='f2b')
 
 con1 = faildb.cursor()
