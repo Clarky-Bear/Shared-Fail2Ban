@@ -17,11 +17,11 @@ else:
     if (sys.version_info > (3, 0)):
         # Python 3 code in this block
         import urllib.request
-        response = urllib.request.urlopen(cfg.apiurl)
+        response = urllib.request.urlopen(cfg.apiurl+"/time/ssh/1")
     else:
         # Python 2 code in this block
         import urllib
-        response = urllib.urlopen(cfg.apiurl)
+        response = urllib.urlopen(cfg.apiurl+"/time/ssh/1")
     data = json.loads(response.read())
 
 open("/etc/fail2ban/action.d/shared-f2b/filter.log", "w").close()

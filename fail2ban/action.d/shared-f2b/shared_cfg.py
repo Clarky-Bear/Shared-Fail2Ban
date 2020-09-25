@@ -10,4 +10,4 @@ mysql = {
   "db": "f2b",
 }
 
-apiurl = "https://f2bapi/api/v1/time/ssh/1"
+apiurl = "https://f2bapi/api/v1"
