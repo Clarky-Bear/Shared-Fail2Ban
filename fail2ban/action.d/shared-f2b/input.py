@@ -4,7 +4,6 @@
 # github.com/bulgemonkey/Shared-Fail2Ban/
 
 import sys
-import mysql.connector
 import datetime
 import socket
 
@@ -20,6 +19,7 @@ print (sys.argv[5]) #bantime
 date1 = datetime.datetime.now()
 
 if 'mysql' in cfg.source:
+    import mysql.connector
     db = mysql.connector.connect(host=cfg.mysql["host"], user=cfg.mysql["user"], passwd=cfg.mysql["passwd"], db=cfg.mysql["db"])
     cur = db.cursor()
     sql = "INSERT INTO f2b SET hostname=\'" + socket.gethostname() + "\', created=\'" + str(date1) + "\', jail=\'" + sys.argv[1] + "\', protocol=\'" + sys.argv[2] + "\', port=\'" + sys.argv[3] + "\', ip=\'" + sys.argv[4] + "\', bantime=\'" + sys.argv[5] + "\';"
