@@ -11,3 +11,4 @@ mysql = {
 }
 
 apiurl = "https://f2bapi/api/v1"
+apitoken = "blah"
