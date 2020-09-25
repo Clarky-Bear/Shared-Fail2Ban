@@ -1,40 +1,4 @@
 ###############################################################
-#### START OF NEW JAILS####### ################################
-
-# Sample of a standard SSH IPTables Ban
-# Please add/edit this to suit into your own jail.conf
-
-[ssh-iptables]
-enabled  = true
-filter   = sshd
-action   = iptables[name=SSH, port=ssh, protocol=tcp]
-           shared[name=SSH, port=ssh, protocol=tcp, bantime=%(bantime)s]
-logpath  = /var/log/secure
-#Max retry set to 3, use default bantime of 10 minutes
-maxretry = 3
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-###############################################################
 #### START OF OLD SHARED JAILS ################################
 ###############################################################
 #
