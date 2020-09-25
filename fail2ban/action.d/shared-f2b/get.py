@@ -25,7 +25,7 @@ else:
     data = json.loads(response.read())
 
 open("/etc/fail2ban/action.d/shared-f2b/filter.log", "w").close()
-file = open("/etc/fail2ban/action.d/shared-f2b/filter.log","w")
+file = open("/etc/fail2ban/action.d/shared-f2b/filter.log", "w")
 for result in data:
     file.write(str(result['created'])+" ["+str(result['ip'])+"] "+str(result['port'])+" "+str(result['protocol'])+"\n")
 file.close()
