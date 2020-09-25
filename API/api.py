@@ -12,6 +12,7 @@ import mysql.connector
 import api_cfg as cfg
 
 app = Flask(__name__)
+app.url_map.strict_slashes = False
 cache = Cache(config={'CACHE_TYPE': 'simple'})
 cache.init_app(app)
 
