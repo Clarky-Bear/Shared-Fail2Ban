@@ -1,22 +1,31 @@
 #!/usr/bin/fail2ban-python
 import sys
-import mysql.connector
-import socket
+import json
 
-db = mysql.connector.connect(
-                        host="127.0.0.1",
-                        user="username",
-                        passwd="password1",
-                        db="f2b")
-cur = db.cursor()
-host = socket.gethostname()
-sql = "SELECT UNIX_TIMESTAMP(created), ip, port, protocol FROM f2b WHERE created>=DATE_ADD(NOW(), INTERVAL -1 HOUR) AND jail = 'SSH' AND hostname != '%s'" % host
-cur.execute(sql)
-row = cur.fetchall()
+import shared_cfg as cfg
 
-#print all entries in row and format data
-open("/etc/fail2ban/action.d/shared-f2b/filter.log", "w").close()
-file = open("/etc/fail2ban/action.d/shared-f2b/filter.log","w")
-for x in row:
-	file.write("{0} [{1}] {2} {3}".format(*x) + "\n")
+if 'mysql' in cfg.source:
+    import mysql.connector
+    import socket
+    db = mysql.connector.connect(host=cfg.mysql["host"], user=cfg.mysql["user"], passwd=cfg.mysql["passwd"], db=cfg.mysql["db"])
+    cur = db.cursor(dictionary=True)
+    host = socket.gethostname()
+    sql = "SELECT UNIX_TIMESTAMP(created) as created, ip, port, protocol FROM f2b WHERE created>=DATE_ADD(NOW(), INTERVAL -1 HOUR) AND jail = 'SSH' AND hostname != '%s'" % host
+    cur.execute(sql)
+    data = cur.fetchall()
+else:
+    if (sys.version_info > (3, 0)):
+        # Python 3 code in this block
+        import urllib.request
+        response = urllib.request.urlopen(cfg.apiurl)
+    else:
+        # Python 2 code in this block
+        import urllib
+        response = urllib.urlopen(cfg.apiurl)
+    data = json.loads(response.read())
+
+open("/tmp/test", "w").close()
+file = open("/tmp/test","w")
+for result in data:
+    file.write(str(result['created'])+" ["+str(result['ip'])+"] "+str(result['port'])+" "+str(result['protocol'])+"\n")
 file.close()
