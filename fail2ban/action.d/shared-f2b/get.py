@@ -10,7 +10,7 @@ db = mysql.connector.connect(
                         db="f2b")
 cur = db.cursor()
 host = socket.gethostname()
-sql = "SELECT UNIX_TIMESTAMP(created), ip, port, protocol FROM f2b WHERE created>=DATE_ADD(NOW(), INTERVAL -1 HOUR) A$
+sql = "SELECT UNIX_TIMESTAMP(created), ip, port, protocol FROM f2b WHERE created>=DATE_ADD(NOW(), INTERVAL -1 HOUR) AND jail = 'SSH' AND hostname != '%s'" % host
 cur.execute(sql)
 row = cur.fetchall()
 
