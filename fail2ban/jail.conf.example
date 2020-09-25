@@ -8,7 +8,14 @@
 enabled  = true
 filter   = sshd
 action   = iptables[name=SSH, port=ssh, protocol=tcp]
-           shared[name=SSH, port=ssh, protocol=tcp, bantime=%(bantime)s]
+           shared-f2b-input[name=SSH, port=ssh, protocol=tcp, bantime=%(bantime)s]
 logpath  = /var/log/secure
 #Max retry set to 3, use default bantime of 10 minutes
 maxretry = 3
+
+[ssh-shared-iptables]
+enabled  = true
+filter   = shared-f2b-filter
+#iptable entries will be marked with SSH-SHARED showing they originat$
+action   = iptables[name=SSH-SHARED, port=ssh, protocol=tcp]
+logpath  = /etc/fail2ban/action.d/shared-f2b/filter.log
