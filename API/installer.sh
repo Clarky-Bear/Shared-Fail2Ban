@@ -161,6 +161,8 @@ application.secret_key = '$RNDM'
 EOF
 
 touch $PREFIX/f2bapi/api.py
+check_bin curl
+curl --silent https://raw.githubusercontent.com/bulgemonkey/Shared-Fail2Ban/master/API/api.py -o $PREFIX/f2bapi/api.py
 touch $PREFIX/f2bapi/api_cfg.py
 # Copy the api script to here
 cat << EOF > $PREFIX/f2bapi/api_cfg.py
@@ -192,4 +194,4 @@ else
   echo " - Failed to start"
 fi
 
-echo "Completed."
+echo "Completed"
