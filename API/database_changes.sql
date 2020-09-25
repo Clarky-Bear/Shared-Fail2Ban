@@ -1,0 +1,1 @@
+CREATE TABLE f2b_api ( `key` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL, `clientip` varchar(128) COLLATE utf8_unicode_ci NOT NULL,   `desc` varchar(255) COLLATE utf8_unicode_ci NOT NULL,   PRIMARY KEY (`key`) );
