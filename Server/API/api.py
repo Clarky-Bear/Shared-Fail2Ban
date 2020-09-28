@@ -112,23 +112,23 @@ def put():
         if int(row[0]['count']) >= 1:
 
             if 'date' not in request.json:
-                return "Incomplete request"
+                return "Incomplete request - date"
             else:
                 pdate = request.json['date']
             if 'jail' not in request.json:
-                return "Incomplete request"
+                return "Incomplete request - jail"
             else:
                 pjail = request.json['jail']
             if 'proto' not in request.json:
-                return "Incomplete request"
+                return "Incomplete request - proto"
             else:
                 pproto = request.json['proto']
             if 'port' not in request.json:
-                return "Incomplete request"
+                return "Incomplete request - port"
             else:
                 pport = request.json['port']
             if 'ip' not in request.json:
-                return "Incomplete request"
+                return "Incomplete request - ip"
             else:
                 pip = request.json['ip']
             # Optional
