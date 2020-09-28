@@ -42,6 +42,7 @@ echo "Checking Distro:"
 case $distro in
   "centos" | "scientific" | "redhat" | "rhel")
     echo " - RHEL"
+    setsebool -P nis_enabled 1 >/dev/null 2>&1
     pmopts="install -q -y"
     pgs="fail2ban fail2ban-server fail2ban-firewall fail2ban-selinux"
     if [ $ver -ge 8 ]; then
