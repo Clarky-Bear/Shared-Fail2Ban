@@ -163,7 +163,7 @@ EOF
 
 touch $PREFIX/f2bapi/api.py
 check_bin curl
-curl --silent https://raw.githubusercontent.com/bulgemonkey/Shared-Fail2Ban/master/API/api.py -o $PREFIX/f2bapi/api.py
+curl --silent https://raw.githubusercontent.com/bulgemonkey/Shared-Fail2Ban/master/Server/API/api.py -o $PREFIX/f2bapi/api.py
 touch $PREFIX/f2bapi/api_cfg.py
 # Copy the api script to here
 cat << EOF > $PREFIX/f2bapi/api_cfg.py
