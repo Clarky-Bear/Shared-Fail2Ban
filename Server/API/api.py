@@ -42,7 +42,7 @@ def help():
 @app.route('/api/v1/time/<string:jail>/<int:time>/', methods=['GET'])
 @app.route('/api/v1/time/<string:jail>/<int:time>/<string:host>', methods=['GET'])
 @app.route('/api/v1/time/<string:jail>/<int:time>/<string:host>/', methods=['GET'])
-@cache.cached(timeout=60)
+@cache.cached(timeout=5)
 def gettime(jail="ssh", time=1, host="remote"):
     if host == "remote":
         try:
@@ -74,7 +74,7 @@ def gettime(jail="ssh", time=1, host="remote"):
 @app.route('/api/v1/count/<string:jail>/<int:count>/', methods=['GET'])
 @app.route('/api/v1/count/<string:jail>/<int:count>/<string:host>', methods=['GET'])
 @app.route('/api/v1/count/<string:jail>/<int:count>/<string:host>/', methods=['GET'])
-@cache.cached(timeout=60)
+@cache.cached(timeout=5)
 def getcount(jail="all", count=1000, host="remote"):
     if host == "remote":
         try:
