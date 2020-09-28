@@ -28,6 +28,7 @@ function check_bin() {
 }
 
 # Early Binary Checks
+check_bin which
 check_bin cat
 check_bin grep
 check_bin awk
