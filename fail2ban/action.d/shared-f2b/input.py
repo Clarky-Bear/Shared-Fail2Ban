@@ -28,9 +28,9 @@ else:
     import time
     data= {
         "hostname": str(socket.gethostname()),
-        "created": int(time.time()),
+        "date": int(time.time()),
         "jail": str(sys.argv[1]),
-        "protocol": str(sys.argv[2]),
+        "proto": str(sys.argv[2]),
         "port": str(sys.argv[3]),
         "ip": str(sys.argv[4]),
         "bantime": str(sys.argv[5])
