@@ -4,7 +4,7 @@
 
 This project aims to enable [Fail2Ban](https://www.fail2ban.org/) instances on individual systems to push the ban information of each jail to a central database allowing other systems to pull the bans to their own system.
 
-**Example:** 
+**Example:**
 This would then mean if Alice and Bob both share their bans and Charlie was locked out from Alice's system for too many incorrect details, Charlie would then be banned from Bob's system.
 
 Fail2Ban Filters can still be applied meaning the sharing method is as robust as a standard Fail2Ban deployment.
@@ -28,7 +28,7 @@ This is a very brief installation method/guide; please read the Warnings and Not
 
 ### Fail2Ban Host/Client
 
-1. Install Fail2Ban 
+1. Install Fail2Ban
 2. Create the f2b database
 3. Choose and setup deployment type (Direct MySQL/MariaDB or API)
 4. Deploy the Fail2Ban actions and scripts
@@ -65,7 +65,12 @@ In no way do we endorse the current scripts as production ready (although they a
 ### Notice - CentOS
 
 The development for this project has been on CentOS Linux 7 although some efforts have been made to enable them to run on CentOS Linux 8. Other distros may have unexpected results.
+
+#### SELinux
+
 SELinux may break this, we wrote some modules for our environment but they have not been include in this project yet.
+- Fail2Ban Client - setsebool -P nis_enabled 1
+- Fail2Ban API - setsebool -P httpd_can_network_connect_db
 
 ### Warning - IPv6
 
