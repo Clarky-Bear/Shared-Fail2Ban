@@ -58,7 +58,7 @@ case $distro in
     setsebool -P httpd_can_network_connect_db 1  >/dev/null 2>&1
     if [ $ver -ge 8 ]; then
       pm="dnf"
-      pgs="httpd mod_wsgi python36 python3-pip python36-virtualenv"
+      pgs="httpd mod_wsgi python36 python3-pip"
       cmd="manual"
     elif [ $ver -eq 7 ]; then
       pm="yum"
