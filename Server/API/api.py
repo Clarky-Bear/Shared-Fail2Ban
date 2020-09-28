@@ -56,10 +56,11 @@ def gettime(jail="ssh", time=1, host="remote"):
     if 'domain' in request.args:
         filter = filter+" AND hostname like '%%%s'" % (escape(request.args.get('domain', default=None, type=str)))
 
+    jail = jail.lower()
     if filter:
-        sql = "SELECT UNIX_TIMESTAMP(created) as created, ip, port, protocol FROM f2b WHERE created>=DATE_ADD(NOW(), INTERVAL -%s HOUR) AND jail = '%s' AND hostname != '%s' %s" % (int(time), escape(lower(jail)), escape(host), filter)
+        sql = "SELECT UNIX_TIMESTAMP(created) as created, ip, port, protocol FROM f2b WHERE created>=DATE_ADD(NOW(), INTERVAL -%s HOUR) AND jail = '%s' AND hostname != '%s' %s" % (int(time), escape(jail), escape(host), filter)
     else:
-        sql = "SELECT UNIX_TIMESTAMP(created) as created, ip, port, protocol FROM f2b WHERE created>=DATE_ADD(NOW(), INTERVAL -%s HOUR) AND jail = '%s' AND hostname != '%s'" % (int(time), escape(lower(jail)), escape(host))
+        sql = "SELECT UNIX_TIMESTAMP(created) as created, ip, port, protocol FROM f2b WHERE created>=DATE_ADD(NOW(), INTERVAL -%s HOUR) AND jail = '%s' AND hostname != '%s'" % (int(time), escape(jail), escape(host))
     cur.execute(sql)
     row = cur.fetchall()
     return jsonify(row)
@@ -89,10 +90,11 @@ def getcount(jail="all", count=1000, host="remote"):
     if 'time' in request.args:
         filter = filter+" AND created>=DATE_ADD(NOW(), INTERVAL -%d HOUR)" % (request.args.get('time', default=None, type=int))
 
+    jail = jail.lower()
     if jail == "all":
         jailsql = ""
     else:
-        jailsql = "jail = '%s' AND" % (escape(lower(jail)))
+        jailsql = "jail = '%s' AND" % (escape(jail))
 
     if filter:
         sql = "SELECT COUNT(*) as count, ip, port, protocol FROM f2b WHERE %s hostname != '%s' %s GROUP BY ip HAVING count >= %d ORDER BY count DESC" % (jailsql, escape(host), filter, int(count))
@@ -118,7 +120,8 @@ def put():
             if 'jail' not in request.json:
                 return "Incomplete request - jail"
             else:
-                pjail = lower(request.json['jail'])
+                pjail = request.json['jail']
+                pjail = pjail.lower()
             if 'proto' not in request.json:
                 return "Incomplete request - proto"
             else:
