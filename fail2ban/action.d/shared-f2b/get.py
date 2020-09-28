@@ -1,4 +1,8 @@
 #!/usr/bin/fail2ban-python
+# Shared Fail2Ban
+# Paul Clark, Adam Boutcher
+# github.com/bulgemonkey/Shared-Fail2Ban/
+
 import sys
 import json
 
