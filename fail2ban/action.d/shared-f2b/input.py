@@ -5,7 +5,7 @@
 
 import sys
 import socket
-
+import datetime
 import shared_cfg as cfg
 
 print (sys.argv[0]) #scritpt name
@@ -16,7 +16,6 @@ print (sys.argv[4]) #ip
 print (sys.argv[5]) #bantime
 
 if 'mysql' in cfg.source:
-    import datetime
     import mysql.connector
     db = mysql.connector.connect(host=cfg.mysql["host"], user=cfg.mysql["user"], passwd=cfg.mysql["passwd"], db=cfg.mysql["db"])
     cur = db.cursor()
@@ -25,10 +24,9 @@ if 'mysql' in cfg.source:
     db.commit()
 else:
     import json
-    import time
     data= {
         "hostname": str(socket.gethostname()),
-        "date": int(time.time()),
+        "date": str(datetime.datetime.now()),
         "jail": str(sys.argv[1]),
         "proto": str(sys.argv[2]),
         "port": str(sys.argv[3]),

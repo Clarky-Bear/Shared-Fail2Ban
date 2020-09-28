@@ -144,7 +144,7 @@ def put():
             else:
                 pbantime = request.json['bantime']
 
-            sql = "INSERT INTO f2b SET hostname = '%s', created = '%d', jail = '%s', protocol = '%s', port = '%s', ip = '%s', bantime = '%d'" % (escape(phost), int(pdate), escape(pjail), escape(pproto), escape(pport), escape(pip), int(pbantime))
+            sql = "INSERT INTO f2b SET hostname = '%s', created = '%s', jail = '%s', protocol = '%s', port = '%s', ip = '%s', bantime = '%d'" % (escape(phost), escape(pdate), escape(pjail), escape(pproto), escape(pport), escape(pip), int(pbantime))
             cur.execute(sql)
             db.commit()
        	    print("PUT - SQL: ",sql, " from ", request.remote_addr)
