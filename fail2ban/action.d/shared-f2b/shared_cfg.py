@@ -1,7 +1,7 @@
 #!/python
 
-#url or mysql
-source = "url"
+#api or mysql
+source = "api"
 
 mysql = {
   "host": "localhost",
