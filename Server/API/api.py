@@ -107,10 +107,11 @@ def getcount(jail="all", count=1000, host="remote"):
 # A method to write back into the database
 @app.route('/api/v1/put', methods=['PUT'])
 def put():
+    cur2 = db.cursor(dictionary=True
     if 'X-TOKEN' in request.headers:
         tokensql = "SELECT COUNT(*) as count FROM f2b_api WHERE `key` = '%s'" % (request.headers.get('X-TOKEN', default=None, type=str))
-        cur.execute(tokensql)
-        row = cur.fetchall()
+        cur2.execute(tokensql)
+        row = cur2.fetchall()
         if int(row[0]['count']) >= 1:
 
             if 'date' not in request.json:
@@ -148,11 +149,11 @@ def put():
                 pbantime = request.json['bantime']
 
             sql = "INSERT INTO f2b SET hostname = '%s', created = '%s', jail = '%s', protocol = '%s', port = '%s', ip = '%s', bantime = '%d'" % (escape(phost), escape(pdate), escape(pjail), escape(pproto), escape(pport), escape(pip), int(pbantime))
-            cur.execute(sql)
+            cur2.execute(sql)
             db.commit()
        	    print("PUT - SQL: ",sql, " from ", request.remote_addr)
             print("PUT - ", cur.rowcount, " records inserted.")
-       	    if cur.rowcount > 0:
+       	    if cur2.rowcount > 0:
        	        return "OK"
        	    else:
                 return "FAILED"
