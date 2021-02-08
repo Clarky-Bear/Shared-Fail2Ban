@@ -137,7 +137,7 @@ def put():
             if 'hostname' not in request.json:
                 try:
                     phost = socket.gethostbyaddr(request.remote_addr)[0]
-                except socket.herror:
+                except socket.error:
                     return "Unable to determine your hostname, please include it in the request"
             else:
                 phost = request.json['hostname']
