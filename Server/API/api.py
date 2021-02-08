@@ -16,10 +16,6 @@ app.url_map.strict_slashes = False
 cache = Cache(config={'CACHE_TYPE': 'simple'})
 cache.init_app(app)
 
-db = mysql.connector.connect(host=cfg.mysql["host"], user=cfg.mysql["user"], passwd=cfg.mysql["passwd"], db=cfg.mysql["db"])
-
-cur = db.cursor(dictionary=True)
-
 @app.route('/', methods=['GET'])
 @app.route('/api', methods=['GET'])
 @app.route('/api/', methods=['GET'])
@@ -61,6 +57,8 @@ def gettime(jail="ssh", time=1, host="remote"):
         sql = "SELECT UNIX_TIMESTAMP(created) as created, ip, port, protocol FROM f2b WHERE created>=DATE_ADD(NOW(), INTERVAL -%s HOUR) AND jail = '%s' AND hostname != '%s' %s" % (int(time), escape(jail), escape(host), filter)
     else:
         sql = "SELECT UNIX_TIMESTAMP(created) as created, ip, port, protocol FROM f2b WHERE created>=DATE_ADD(NOW(), INTERVAL -%s HOUR) AND jail = '%s' AND hostname != '%s'" % (int(time), escape(jail), escape(host))
+    db = mysql.connector.connect(host=cfg.mysql["host"], user=cfg.mysql["user"], passwd=cfg.mysql["passwd"], db=cfg.mysql["db"])
+    cur = db.cursor(dictionary=True)
     cur.execute(sql)
     row = cur.fetchall()
     return jsonify(row)
