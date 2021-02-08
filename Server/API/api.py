@@ -43,7 +43,7 @@ def gettime(jail="ssh", time=1, host="remote"):
     if host == "remote":
         try:
             host = socket.gethostbyaddr(request.remote_addr)[0]
-        except socket.herror:
+        except socket.error:
             host = "unknown.host"
     else:
         host = "*"
@@ -61,6 +61,8 @@ def gettime(jail="ssh", time=1, host="remote"):
     cur = db.cursor(dictionary=True)
     cur.execute(sql)
     row = cur.fetchall()
+    cur.close()
+    db.close()
     return jsonify(row)
 
 # These are IPs that are repeatedly bad
@@ -77,7 +79,7 @@ def getcount(jail="all", count=1000, host="remote"):
     if host == "remote":
         try:
             host = socket.gethostbyaddr(request.remote_addr)[0]
-        except socket.herror:
+        except socket.error:
             host = "unknown.host"
     else:
         host = "*"
@@ -98,18 +100,23 @@ def getcount(jail="all", count=1000, host="remote"):
         sql = "SELECT COUNT(*) as count, ip, port, protocol FROM f2b WHERE %s hostname != '%s' %s GROUP BY ip HAVING count >= %d ORDER BY count DESC" % (jailsql, escape(host), filter, int(count))
     else:
         sql = "SELECT COUNT(*) as count, ip, port, protocol FROM f2b WHERE %s hostname != '%s' GROUP BY ip HAVING count >= %d ORDER BY count DESC" % (jailsql, escape(host), int(count))
+    db = mysql.connector.connect(host=cfg.mysql["host"], user=cfg.mysql["user"], passwd=cfg.mysql["passwd"], db=cfg.mysql["db"])
+    cur = db.cursor(dictionary=True)
     cur.execute(sql)
     row = cur.fetchall()
+    cur.close()
+    db.close()
     return jsonify(row)
 
 # A method to write back into the database
 @app.route('/api/v1/put', methods=['PUT'])
 def put():
-    cur2 = db.cursor(dictionary=True
     if 'X-TOKEN' in request.headers:
         tokensql = "SELECT COUNT(*) as count FROM f2b_api WHERE `key` = '%s'" % (request.headers.get('X-TOKEN', default=None, type=str))
-        cur2.execute(tokensql)
-        row = cur2.fetchall()
+        db = mysql.connector.connect(host=cfg.mysql["host"], user=cfg.mysql["user"], passwd=cfg.mysql["passwd"], db=cfg.mysql["db"])
+        cur = db.cursor(dictionary=True)
+        cur.execute(tokensql)
+        row = cur.fetchall()
         if int(row[0]['count']) >= 1:
 
             if 'date' not in request.json:
@@ -147,16 +154,18 @@ def put():
                 pbantime = request.json['bantime']
 
             sql = "INSERT INTO f2b SET hostname = '%s', created = '%s', jail = '%s', protocol = '%s', port = '%s', ip = '%s', bantime = '%d'" % (escape(phost), escape(pdate), escape(pjail), escape(pproto), escape(pport), escape(pip), int(pbantime))
-            cur2.execute(sql)
+            cur.execute(sql)
             db.commit()
        	    print("PUT - SQL: ",sql, " from ", request.remote_addr)
             print("PUT - ", cur.rowcount, " records inserted.")
-       	    if cur2.rowcount > 0:
+       	    if cur.rowcount > 0:
        	        return "OK"
        	    else:
                 return "FAILED"
         else:
             return "Please PUT request with your TOKEN."
+        cur.close()
+        db.close()
     else:
         return "Please PUT request with your TOKEN."
 
