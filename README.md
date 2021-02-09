@@ -19,6 +19,9 @@ This has been developed at the Durham [GridPP](https://gridpp.ac.uk) Site (*UKI-
 
 The work and partial works have been presented too the [WLCG](https://wlcg.web.cern.ch/) Security Operations Centre at [Cern](https://home.cern/)
 
+Other key contributors:
+ - **Jon Trinder** at Glasgow University.
+
 
 ----
 
