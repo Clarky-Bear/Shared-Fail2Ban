@@ -63,7 +63,7 @@ This is a very brief installation method/guide; please read the Warnings and Not
 
 The files contained in this repository are currently primarily to use and develop from. They should be READ and UNDERSTOOD rather than blindly copied and deployed.
 
-In no way do we endorse the current scripts as production ready (although they are currently deployed in some producation environments), we cannot gurantee their safety, especially as these are aimed for Cyber Security deployments.
+In no way do we endorse the current scripts as production ready (although they are currently deployed in some production environments), we cannot guarantee their safety, especially as these are aimed for Cyber Security deployments.
 
 ### Notice - CentOS
 
@@ -81,4 +81,4 @@ Fail2Ban didn't support IPv6 at the time of initial development. The current sta
 
 ### Notice - Python Support
 
-The version of Fail2Ban we targeted was written in Python2 and shipped with its own python binary, some scripts will run with Python2 and Python3, some are only Python2. Your experences may vary.
+The version of Fail2Ban we targeted was written in Python2 and shipped with its own python binary, some scripts will run with Python2 and Python3, some are only Python2. Your experiences may vary.
