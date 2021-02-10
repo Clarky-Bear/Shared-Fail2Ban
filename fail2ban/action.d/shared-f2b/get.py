@@ -28,7 +28,6 @@ def getjails(jailname):
         cur.execute(sql)
         data = cur.fetchall()
     else:
-        queryline =
         if (sys.version_info > (3, 0)):
             # Python 3 code in this block
             import urllib.request
