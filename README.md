@@ -84,3 +84,10 @@ Fail2Ban didn't support IPv6 at the time of initial development. The current sta
 ### Notice - Python Support
 
 The version of Fail2Ban we targeted was written in Python2 and shipped with its own python binary, some scripts will run with Python2 and Python3, some are only Python2. Your experiences may vary.
+
+----
+### Auto Deployment
+
+Here's a list of other peoples attempts at auto deployment. They may bundle older versions of the scripts and should be used as reference only.
+- [Puppet](https://github.com/adamboutcher/Shared-Fail2Ban-Puppet)
+- [Ansible](https://github.com/ninelocks/ansible-shared-fail2ban)
