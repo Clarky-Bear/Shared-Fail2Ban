@@ -19,3 +19,5 @@ filter   = shared-f2b-filter
 #iptable entries will be marked with SSH-SHARED showing they originat$
 action   = iptables[name=SSH-SHARED, port=ssh, protocol=tcp]
 logpath  = /etc/fail2ban/action.d/shared-f2b/filter.log
+           /etc/fail2ban/action.d/shared-f2b/filter-ssh.log
+           /etc/fail2ban/action.d/shared-f2b/filter-ssh-iptables.log

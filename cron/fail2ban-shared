@@ -1,2 +1,3 @@
 # Get latest Shared Fail2Ban Details
 * * * * * root /etc/fail2ban/action.d/shared-f2b/get.py >/dev/null 2>&1
+* * * * * root /etc/fail2ban/action.d/shared-f2b/get.py --jail ssh-iptables >/dev/null 2>&1
