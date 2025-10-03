@@ -62,32 +62,34 @@ This is a very brief installation method/guide; please read the Warnings and Not
 ## Warnings and Notices
 
 ### Warning - Not for Production
-
 The files contained in this repository are currently primarily to use and develop from. They should be READ and UNDERSTOOD rather than blindly copied and deployed.
 
 In no way do we endorse the current scripts as production ready (although they are currently deployed in some production environments), we cannot guarantee their safety, especially as these are aimed for Cyber Security deployments.
 
-### Notice - CentOS
-
-The development for this project has been on CentOS Linux 7 although some efforts have been made to enable them to run on CentOS Linux 8. Other distros may have unexpected results.
+### Notice - Linux Compatability
+The initial development for the Shared Fail2Ban was on CentOS 7 (EL7), with some minor alterations to support CentOS 8 (EL8).
+We have since deployed both the server and client on Rocky Linux 9 (EL9) with no issues.
+We cannot forsee any issues with other Linux Based systems (especially Fedora, Ubuntu, Debian etc) however we have not tested these so other distros may have unexpected results.
 
 #### SELinux
-
-SELinux may break this, we wrote some modules for our environment but they have not been include in this project yet.
+SELinux may break this, we wrote some modules for our environment but they have not been included in this project yet.
 - Fail2Ban Client - setsebool -P nis_enabled 1
 - Fail2Ban API - setsebool -P httpd_can_network_connect_db
 
-### Warning - IPv6
+#### Python Support
+Fail2Ban originally shipped with a custom fixed version of Python (python2) which is what we targeted with all of our scripts, since then, Python2 has been deprcated and Fail2Ban seems to use the system Python3. All of our scripts work with the current version of python shipped (EL9, Python 3.9), most client scripts should work on the older Python2 deployment however your experiences may vary.
 
-Fail2Ban didn't support IPv6 at the time of initial development. The current state of this project is that IPv6 is completely untested and will probably not work correctly.
-
-### Notice - Python Support
-
-The version of Fail2Ban we targeted was written in Python2 and shipped with its own python binary, some scripts will run with Python2 and Python3, some are only Python2. Your experiences may vary.
+#### Notice - IPv6
+Fail2Ban didn't support IPv6 at the time of initial development. We have seen *some* IPv6 addresses in our shared fail2ban deployment however the current state of this project is that IPv6 is *still* (as of 2025) considered untested and will probably not work as intended.
 
 ----
+
 ### Auto Deployment
 
-Here's a list of other peoples attempts at auto deployment. They may bundle older versions of the scripts and should be used as reference only.
+Here's a list of other attempts at auto deployment. They may bundle older versions of the scripts and should be used as reference only.
 - [Puppet](https://github.com/adamboutcher/Shared-Fail2Ban-Puppet)
 - [Ansible](https://github.com/ninelocks/ansible-shared-fail2ban)
+
+----
+### Other related works
+- [Shared Ban Exports](https://github.com/adamboutcher/Shared-Fail2Ban-Exports)
