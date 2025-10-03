@@ -79,7 +79,7 @@ SELinux may break this, we wrote some modules for our environment but they have 
 #### Python Support
 Fail2Ban originally shipped with a custom fixed version of Python (python2) which is what we targeted with all of our scripts, since then, Python2 has been deprcated and Fail2Ban seems to use the system Python3. All of our scripts work with the current version of python shipped (EL9, Python 3.9), most client scripts should work on the older Python2 deployment however your experiences may vary.
 
-#### Notice - IPv6
+### Notice - IPv6
 Fail2Ban didn't support IPv6 at the time of initial development. We have seen *some* IPv6 addresses in our shared fail2ban deployment however the current state of this project is that IPv6 is *still* (as of 2025) considered untested and will probably not work as intended.
 
 ----
