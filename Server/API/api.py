@@ -21,12 +21,12 @@ cache.init_app(app)
 @app.route('/api/', methods=['GET'])
 @cache.cached(timeout=3600)
 def about():
-    return '<h3>Shared Fail2Ban API</h3><br/><strong>Paul Clark, Adam Boutcher</strong><br/>(<em>UKI-SCOTGRID-DURHAM</em>) IPPP, Durham University.<br/><br/><a href="https://github.com/bulgemonkey/Shared-Fail2Ban">https://github.com/bulgemonkey/Shared-Fail2Ban</a>'
+    return '<h3>Shared Fail2Ban API</h3><br/><strong>Paul Clark, Adam Boutcher</strong><br/>(<em>UKI-SCOTGRID-DURHAM</em>) IPPP, Durham University.<br/><br/><a href="https://github.com/Clarky-Bear/Shared-Fail2Ban">github.com/Clarky-Bear/Shared-Fail2Ban</a>'
 @app.route('/api/v1', methods=['GET'])
 @app.route('/api/v1/', methods=['GET'])
 @cache.cached(timeout=3600)
 def help():
-    return '/api - About<br/>/api/v1 - Help<br/>/api/v1/time/[str:jailname]/[int:hour]/[all] - Banned IPs by time (last n hours)<br/>/api/v1/count/[str:jailname]/[int:count]/[all] - Banned IPs by count (n bans)<br/>args: domain=domain_filter, time=time_filter_in_hours'
+    return '/api - About<br/>/api/v1 - Help<br/>/api/v1/time/[str:jailname|all]/[int:hour]/[all] - Banned IPs by time (last n hours)<br/>/api/v1/count/[str:jailname]/[int:count]/[all] - Banned IPs by count (n bans)<br/>args: domain=domain_filter, time=time_filter_in_hours'
 
 
 # These are IPs that have been bad for a short ban
@@ -39,7 +39,7 @@ def help():
 @app.route('/api/v1/time/<string:jail>/<int:time>/<string:host>', methods=['GET'])
 @app.route('/api/v1/time/<string:jail>/<int:time>/<string:host>/', methods=['GET'])
 @cache.cached(timeout=5)
-def gettime(jail="ssh", time=1, host="remote"):
+def gettime(jail="all", time=1, host="remote"):
     if host == "remote":
         try:
             host = socket.gethostbyaddr(request.remote_addr)[0]
@@ -53,10 +53,15 @@ def gettime(jail="ssh", time=1, host="remote"):
         filter = filter+" AND hostname like '%%%s'" % (escape(request.args.get('domain', default=None, type=str)))
 
     jail = jail.lower()
-    if filter:
-        sql = "SELECT UNIX_TIMESTAMP(created) as created, ip, port, protocol FROM f2b WHERE created>=DATE_ADD(NOW(), INTERVAL -%s HOUR) AND jail = '%s' AND hostname != '%s' %s" % (int(time), escape(jail), escape(host), filter)
+    if jail == "all":
+        jailsql = ""
     else:
-        sql = "SELECT UNIX_TIMESTAMP(created) as created, ip, port, protocol FROM f2b WHERE created>=DATE_ADD(NOW(), INTERVAL -%s HOUR) AND jail = '%s' AND hostname != '%s'" % (int(time), escape(jail), escape(host))
+        jailsql = "jail = '%s' AND" % (escape(jail))
+
+    if filter:
+        sql = "SELECT UNIX_TIMESTAMP(created) as created, ip, port, protocol FROM f2b WHERE created>=DATE_ADD(NOW(), INTERVAL -%s HOUR) AND %s hostname != '%s' %s" % (int(time), jailsql, escape(host), filter)
+    else:
+        sql = "SELECT UNIX_TIMESTAMP(created) as created, ip, port, protocol FROM f2b WHERE created>=DATE_ADD(NOW(), INTERVAL -%s HOUR) AND %s hostname != '%s'" % (int(time), jailsql, escape(host))
     db = mysql.connector.connect(host=cfg.mysql["host"], user=cfg.mysql["user"], passwd=cfg.mysql["passwd"], db=cfg.mysql["db"])
     cur = db.cursor(dictionary=True)
     cur.execute(sql)
