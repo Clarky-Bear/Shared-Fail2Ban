@@ -67,5 +67,5 @@ systemctl enable mariadb >/dev/null 2>&1
 systemctl start mariadb >/dev/null 2>&1
 
 echo "Configuring MySQL"
-curl --silent https://raw.githubusercontent.com/bulgemonkey/Shared-Fail2Ban/master/Server/base-server.sql -o ~/base-server.sql
+curl --silent https://raw.githubusercontent.com/Clarky-Bear/Shared-Fail2Ban/master/Server/base-server.sql -o ~/base-server.sql
 mysql -u root < ~/base-server.sql
