@@ -50,6 +50,6 @@ def getjails(jailname):
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('--jail', required=False, help='Enter jailname', dest='jail_name', default="ssh")
+    parser.add_argument('--jail', required=False, help='Enter jailname', dest='jail_name', default="all")
     results = parser.parse_args()
     getjails(results.jail_name)
